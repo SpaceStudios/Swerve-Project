@@ -7,12 +7,12 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Distance;
 
 /** Add your docs here. */
 public class Constants {
@@ -40,6 +40,8 @@ public class Constants {
         public static final double kPSteer = 0.8;
         public static final double kISteer = 0.0;
         public static final double kDSteer = 0.0;
+
+        public static final Distance wheelCircumfrence = Inches.of(2).times(Math.PI*2);
     }
 
     public class RobotConstants {

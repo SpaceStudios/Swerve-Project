@@ -16,22 +16,20 @@ import edu.wpi.first.units.measure.*;
 public interface ModuleIO {
     @AutoLog
     public class ModuleData {
-        Distance driveDistance = Meters.of(0);
-        LinearVelocity driveVelocity = MetersPerSecond.of(0);
-        AngularVelocity driveAngularVelocity = RadiansPerSecond.of(0);
-        Current driveCurrent = Amps.of(0);
-        Voltage driveVoltage = Volts.of(0);
-        Temperature driveTemperature = Celsius.of(0);
+        public Distance driveDistance = Meters.of(0);
+        public LinearVelocity driveVelocity = MetersPerSecond.of(0);
+        public AngularVelocity driveAngularVelocity = RadiansPerSecond.of(0);
+        public Current driveCurrent = Amps.of(0);
+        public Voltage driveVoltage = Volts.of(0);
+        public Temperature driveTemperature = Celsius.of(0);
 
-        Angle steerDistance = Radians.of(0);
-        AngularVelocity steerVelocity = RadiansPerSecond.of(0);
-        Current steerCurrent = Amps.of(0);
-        Voltage steerVoltage = Volts.of(0);
-        Temperature steerTemperature = Celsius.of(0);
+        public Angle steerDistance = Radians.of(0);
+        public AngularVelocity steerVelocity = RadiansPerSecond.of(0);
+        public Current steerCurrent = Amps.of(0);
+        public Voltage steerVoltage = Volts.of(0);
+        public Temperature steerTemperature = Celsius.of(0);
     }
 
-    public abstract void setDrivePID(double p, double i, double d);
-    public abstract void setSteerPID(double p, double i, double d);
     public abstract void drive(SwerveModuleState moduleState);
     public abstract SwerveModuleState getState();
     public abstract SwerveModulePosition getPosition();

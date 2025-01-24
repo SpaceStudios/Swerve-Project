@@ -32,7 +32,7 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain(boolean usesGyro) {
     modules = new Module[4];
     for (int i=0; i<4; i++) {
-      modules[i] = new Module(ModuleIDs[i][0], ModuleIDs[i][1]);
+      modules[i] = new Module(ModuleIDs[i][0], ModuleIDs[i][1], i);
     }
 
     kinematics = new SwerveDriveKinematics(moduleTranslations);

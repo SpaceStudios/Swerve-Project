@@ -4,13 +4,18 @@
 
 package frc.robot.subsystems.drivetrain.modules;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.subsystems.drivetrain.modules.ModuleIO.ModuleData;
 
 /** Add your docs here. */
 public class Module {
     ModuleIO io;
-    public Module(int DriveID, int SteerID) {
-
+    ModuleDataAutoLogged data;
+    int index;
+    public Module(int DriveID, int SteerID, int Index) {
+        index = Index+1;
     }
 
     public void setState(SwerveModuleState state) {
@@ -19,5 +24,10 @@ public class Module {
 
     public SwerveModuleState getState() {
         return io.getState();
+    }
+
+    public void periodic() {
+        io.updateInputs(data);
+        Logger.processInputs("Module"+index, data);
     }
 }
