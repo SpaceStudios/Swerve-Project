@@ -7,7 +7,6 @@ package frc.robot.subsystems.drivetrain.modules;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.subsystems.drivetrain.modules.ModuleIO.ModuleData;
 
 /** Add your docs here. */
 public class Module {

@@ -16,11 +16,9 @@ import frc.robot.subsystems.drivetrain.modules.ModuleDataAutoLogged;
 import frc.robot.subsystems.drivetrain.modules.ModuleIO;
 
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Celsius;
 import static edu.wpi.first.units.Units.Fahrenheit;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
