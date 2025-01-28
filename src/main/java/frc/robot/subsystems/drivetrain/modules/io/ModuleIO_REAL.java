@@ -20,6 +20,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -65,7 +66,7 @@ public class ModuleIO_REAL implements ModuleIO {
     @Override
     public void updateInputs(ModuleDataAutoLogged data) {
         driveSpark.setVoltage(drivePID.calculate(((driveEncoder.getVelocity()/60.0)*driveRatio)*wheelCircumfrence.in(Meters)));
-        steerSpark.setVoltage(steerPID.calculate(steerEncoder.getPosition()*steerRatio));
+        steerSpark.setVoltage(MathUtil.applyDeadband(steerPID.calculate(steerEncoder.getPosition()*steerRatio), 0.01));
 
         data.driveDistance = Meters.of((driveEncoder.getPosition()*driveRatio)*wheelCircumfrence.in(Meters));
         data.driveVelocity = MetersPerSecond.of(((driveEncoder.getVelocity()/60.0)*driveRatio)*wheelCircumfrence.in(Meters));
