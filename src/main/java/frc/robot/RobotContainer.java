@@ -4,15 +4,33 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.carriage.Carriage;
+import frc.robot.subsystems.carriage.commands.setVolts;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.drivetrain.commands.Drive;
 
 public class RobotContainer {
+  CommandXboxController controller = new CommandXboxController(0);
+  Drivetrain drivetrain = new Drivetrain(false);
+  Carriage carriage = new Carriage();
+
   public RobotContainer() {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    drivetrain.setDefaultCommand(new Drive(drivetrain, 
+    () -> MathUtil.applyDeadband(-controller.getLeftX(), 0.1), 
+    () -> MathUtil.applyDeadband(-controller.getLeftY(), 0.1), 
+    () -> MathUtil.applyDeadband(-controller.getRightX(), 0.1), 
+    true));
+    controller.leftTrigger().whileTrue(new setVolts(carriage, 12));
+    controller.leftBumper().whileTrue(new setVolts(carriage, -12));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

@@ -20,14 +20,16 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.robot.Constants.DrivetrainConstants.*;
 import static frc.robot.Constants.RobotConstants.*;
 
+import org.littletonrobotics.junction.Logger;
+
 public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   Module[] modules;
   SwerveDriveKinematics kinematics;
   SwerveDrivePoseEstimator poseEstimator;
-  SwerveDriveOdometry odometry;
   boolean useGyro;
   SwerveModulePosition[] lastPositions;
+  SwerveModulePosition[] moduleDeltas;
 
   public Drivetrain(boolean usesGyro) {
     modules = new Module[4];
@@ -36,8 +38,9 @@ public class Drivetrain extends SubsystemBase {
     }
 
     kinematics = new SwerveDriveKinematics(moduleTranslations);
-    odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromRadians(0), new SwerveModulePosition[4]);
-    poseEstimator = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromRadians(0), new SwerveModulePosition[4], new Pose2d());
+    poseEstimator = new SwerveDrivePoseEstimator(kinematics, Rotation2d.fromRadians(0), new SwerveModulePosition[] {new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition()}, new Pose2d());
+    lastPositions = new SwerveModulePosition[] {new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition()};
+    moduleDeltas = new SwerveModulePosition[] {new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition()};
     useGyro = usesGyro;
   }
 
@@ -50,13 +53,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public Rotation2d getRotation() {
-    Rotation2d robotRot = new Rotation2d();
+    Rotation2d robotRot = new Rotation2d(0);
+    Logger.recordOutput("Use Gyro", useGyro);
     if (useGyro) {
 
     } else {
-      robotRot.plus(new Rotation2d(kinematics.toTwist2d(lastPositions).dtheta));
+      robotRot.plus(new Rotation2d(kinematics.toTwist2d(moduleDeltas).dtheta));
+      Logger.recordOutput("Robot Twist", robotRot.plus(new Rotation2d(kinematics.toTwist2d(moduleDeltas).dtheta)));
     }
-    return new Rotation2d();
+    return robotRot;
   }
 
   public void Drive(double joystick1x, double joystick1y, double joystick2x, boolean robotRelative) {
@@ -71,13 +76,27 @@ public class Drivetrain extends SubsystemBase {
         maxTurnSpeed.in(RadiansPerSecond)*joystick2x, 
         this.getRotation())
     );
+    Logger.recordOutput("Drivetrain/Intended States", moduleStates);
     for (int i=0; i<modules.length; i++) {
+      moduleStates[i].optimize(modules[i].getState().angle);
       modules[i].setState(moduleStates[i]);
     }
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SwerveModuleState[] moduleStates = new SwerveModuleState[modules.length];
+    SwerveModulePosition[] modulePositions = new SwerveModulePosition[modules.length];
+    for (int i=0; i<modules.length; i++) {
+      modules[i].periodic();
+      moduleStates[i] = modules[i].getState();
+      modulePositions[i] = modules[i].getPosition();
+      moduleDeltas[i] = new SwerveModulePosition(modulePositions[i].distanceMeters-lastPositions[i].distanceMeters,modulePositions[i].angle);
+    }
+
+    Pose2d pose = poseEstimator.update(getRotation(), modulePositions);
+    Logger.recordOutput("Drivetrain/Robot Rotation", getRotation());
+    Logger.recordOutput("Drivetrain/Swerve Pose", pose);
+    Logger.recordOutput("Drivetrain/Swerve States", moduleStates);
   }
 }

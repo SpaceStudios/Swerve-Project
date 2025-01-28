@@ -7,16 +7,19 @@ package frc.robot.subsystems.drivetrain.modules.io;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import frc.robot.subsystems.drivetrain.commands.Drive;
 import frc.robot.subsystems.drivetrain.modules.ModuleDataAutoLogged;
 import frc.robot.subsystems.drivetrain.modules.ModuleIO;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Fahrenheit;
+import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
@@ -26,8 +29,6 @@ import static frc.robot.Constants.DrivetrainConstants.*;
 
 /** Add your docs here. */
 public class ModuleIO_SIM implements ModuleIO {
-    TalonFX driveTalon;
-    TalonFX steerTalon;
     double driveGearRatio;
     double steerGearRatio;
     PIDController drivePID;
@@ -36,14 +37,12 @@ public class ModuleIO_SIM implements ModuleIO {
     DCMotorSim steerMotor;
 
     public ModuleIO_SIM(int DriveID, int SteerID) {
-        driveTalon = new TalonFX(DriveID);
-        steerTalon = new TalonFX(SteerID);
         drivePID = new PIDController(kPDrive, kIDrive, kDDrive);
         steerPID = new PIDController(kPSteer, kISteer, kDSteer);
-        steerGearRatio = 150.0/7.0;
-        driveGearRatio = 8.14;
-        driveMotor = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.04, driveGearRatio), DCMotor.getKrakenX60(1), null);
-        steerMotor = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.04, steerGearRatio), DCMotor.getKrakenX60(1), null);
+        steerGearRatio = steerRatio;
+        driveGearRatio = driveRatio;
+        driveMotor = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.04, driveGearRatio), DCMotor.getKrakenX60(1), new double[] {0,0});
+        steerMotor = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0.04, steerGearRatio), DCMotor.getKrakenX60(1), new double[]{0,0});
         steerPID.enableContinuousInput(-Math.PI, Math.PI);
     }
     
@@ -55,13 +54,13 @@ public class ModuleIO_SIM implements ModuleIO {
 
     @Override
     public SwerveModuleState getState() {
-        return new SwerveModuleState();
+        return new SwerveModuleState((driveMotor.getAngularVelocity().in(RotationsPerSecond)*driveGearRatio)*wheelCircumfrence.in(Meters), 
+        Rotation2d.fromRadians(steerMotor.getAngularPositionRad()*steerGearRatio));
     }
 
     @Override
     public SwerveModulePosition getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return new SwerveModulePosition((driveMotor.getAngularPositionRotations()*driveGearRatio)*wheelCircumfrence.in(Meters), Rotation2d.fromRadians(steerMotor.getAngularPositionRad()*steerGearRatio));
     }
 
     @Override
@@ -69,8 +68,8 @@ public class ModuleIO_SIM implements ModuleIO {
         driveMotor.update(0.020);
         steerMotor.update(0.020);
 
-        driveMotor.setInputVoltage(drivePID.calculate((driveMotor.getAngularVelocity().in(RotationsPerSecond)*driveGearRatio)*wheelCircumfrence.in(Meters))*12);
-        steerMotor.setInputVoltage(steerPID.calculate(steerMotor.getAngularPositionRad()*steerGearRatio)*12);
+        driveMotor.setInputVoltage(drivePID.calculate((driveMotor.getAngularVelocity().in(RotationsPerSecond)*driveGearRatio)*wheelCircumfrence.in(Meters)));
+        steerMotor.setInputVoltage(steerPID.calculate(steerMotor.getAngularPositionRad()*steerGearRatio));
         
         data.driveDistance = Meters.of(driveMotor.getAngularPosition().in(Rotations)*wheelCircumfrence.in(Meters));
         data.driveVelocity = MetersPerSecond.of(driveMotor.getAngularVelocity().in(RotationsPerSecond)*wheelCircumfrence.in(Meters));

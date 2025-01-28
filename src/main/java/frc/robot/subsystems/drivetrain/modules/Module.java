@@ -6,7 +6,10 @@ package frc.robot.subsystems.drivetrain.modules;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.subsystems.drivetrain.modules.io.ModuleIO_REAL;
+import frc.robot.subsystems.drivetrain.modules.io.ModuleIO_SIM;
 
 /** Add your docs here. */
 public class Module {
@@ -14,15 +17,22 @@ public class Module {
     ModuleDataAutoLogged data;
     int index;
     public Module(int DriveID, int SteerID, int Index) {
+        io = new ModuleIO_REAL(DriveID, SteerID);
         index = Index+1;
+        data = new ModuleDataAutoLogged();
     }
 
     public void setState(SwerveModuleState state) {
+        state.speedMetersPerSecond *= state.angle.minus(getState().angle).getCos();
         io.drive(state);
     }
 
     public SwerveModuleState getState() {
         return io.getState();
+    }
+
+    public SwerveModulePosition getPosition() {
+        return io.getPosition();
     }
 
     public void periodic() {

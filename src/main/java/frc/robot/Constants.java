@@ -29,23 +29,34 @@ public class Constants {
         //Module Translations
         public static final Translation2d[] moduleTranslations = new Translation2d[] {
             new Translation2d(Inches.of(14).in(Meters),Inches.of(14).in(Meters)),
+            new Translation2d(Inches.of(14).in(Meters),-Inches.of(14).in(Meters)),
             new Translation2d(-Inches.of(14).in(Meters),Inches.of(14).in(Meters)),
-            new Translation2d(-Inches.of(14).in(Meters),-Inches.of(14).in(Meters)),
-            new Translation2d(Inches.of(14).in(Meters),-Inches.of(14).in(Meters))
+            new Translation2d(-Inches.of(14).in(Meters),-Inches.of(14).in(Meters))
         };
 
         public static final double kPDrive = 0.8;
         public static final double kIDrive = 0.0;
         public static final double kDDrive = 0.0;
-        public static final double kPSteer = 0.8;
+        public static final double kPSteer = 0.7;
         public static final double kISteer = 0.0;
         public static final double kDSteer = 0.0;
 
         public static final Distance wheelCircumfrence = Inches.of(2).times(Math.PI*2);
+        public static final double driveRatio = 5.14;
+        public static final double steerRatio = 150.0/7.0;
+    }
+
+    public class CarraigeConstants {
+        public static final int carriageIDs[] = new int[] {21,22};
     }
 
     public class RobotConstants {
-        public static final LinearVelocity maxSpeed = MetersPerSecond.of(20);
+        public static final LinearVelocity maxSpeed = MetersPerSecond.of(1);
         public static final AngularVelocity maxTurnSpeed = RotationsPerSecond.of(2);
+        public static state robotState = state.SIM;
+        public enum state {
+            REAL,
+            SIM
+        }
     }
 }
