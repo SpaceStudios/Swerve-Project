@@ -6,6 +6,7 @@ package frc.robot;
 
 import static frc.robot.Constants.RobotConstants.robotState;
 
+import org.ironmaple.simulation.SimulatedArena;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -29,6 +30,9 @@ public class Robot extends LoggedRobot {
         break;
       case SIM:
         Logger.addDataReceiver(new NT4Publisher());
+        SimulatedArena.getInstance();
+        SimulatedArena.overrideInstance(SimulatedArena.getInstance());
+        SimulatedArena.getInstance().placeGamePiecesOnField();
         break;
     }
     Logger.start();
@@ -38,6 +42,16 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    switch (robotState) {
+      case REAL:
+        
+        break;
+      case SIM:
+        SimulatedArena.getInstance().simulationPeriodic();
+        Logger.recordOutput("Coral", SimulatedArena.getInstance().getGamePiecesArrayByType("Coral"));
+        Logger.recordOutput("Algae", SimulatedArena.getInstance().getGamePiecesArrayByType("Algae"));
+        break;
+    }
   }
 
   @Override
@@ -79,6 +93,9 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void testInit() {
+    if (isSimulation()) {
+      SimulatedArena.getInstance().resetFieldForAuto();
+    }
     CommandScheduler.getInstance().cancelAll();
   }
 

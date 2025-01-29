@@ -42,6 +42,7 @@ public class Constants {
         public static final double kDSteer = 0.0;
 
         public static final Distance wheelCircumfrence = Inches.of(2).times(Math.PI*2);
+        public static final Distance wheelRadius = Inches.of(wheelCircumfrence.in(Inches)/(Math.PI*2));
         public static final double driveRatio = 5.14;
         public static final double steerRatio = 150.0/7.0;
     }
