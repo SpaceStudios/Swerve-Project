@@ -8,13 +8,10 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Celsius;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 import static frc.robot.Constants.DrivetrainConstants.*;
-
-import org.opencv.calib3d.StereoBM;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;

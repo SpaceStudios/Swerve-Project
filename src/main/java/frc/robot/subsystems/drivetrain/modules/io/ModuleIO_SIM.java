@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.drivetrain.modules.io;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -13,13 +11,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import frc.robot.subsystems.drivetrain.commands.Drive;
 import frc.robot.subsystems.drivetrain.modules.ModuleDataAutoLogged;
 import frc.robot.subsystems.drivetrain.modules.ModuleIO;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Fahrenheit;
-import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
