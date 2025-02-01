@@ -51,8 +51,8 @@ public class Constants {
     }
 
     public class RobotConstants {
-        public static final LinearVelocity maxSpeed = MetersPerSecond.of(1);
-        public static final AngularVelocity maxTurnSpeed = RotationsPerSecond.of(2);
+        public static final LinearVelocity maxSpeed = MetersPerSecond.of(5);
+        public static final AngularVelocity maxTurnSpeed = RotationsPerSecond.of(0.5);
         public static state robotState = state.SIM;
         public enum state {
             REAL,

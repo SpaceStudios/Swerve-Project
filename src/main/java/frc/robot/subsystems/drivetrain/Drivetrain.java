@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drivetrain.modules.Module;
+import frc.robot.subsystems.vision.Vision;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -29,8 +30,9 @@ public class Drivetrain extends SubsystemBase {
   boolean useGyro;
   SwerveModulePosition[] lastPositions;
   SwerveModulePosition[] moduleDeltas;
+  Vision visionSys;
 
-  public Drivetrain(boolean usesGyro) {
+  public Drivetrain(boolean usesGyro, Vision vision) {
     modules = new Module[4];
     for (int i=0; i<4; i++) {
       modules[i] = new Module(ModuleIDs[i][0], ModuleIDs[i][1], i);
@@ -41,6 +43,7 @@ public class Drivetrain extends SubsystemBase {
     lastPositions = new SwerveModulePosition[] {new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition()};
     moduleDeltas = new SwerveModulePosition[] {new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition(),new SwerveModulePosition()};
     useGyro = usesGyro;
+    visionSys = vision;
   }
 
   public SwerveModuleState[] getStates() {
@@ -57,8 +60,7 @@ public class Drivetrain extends SubsystemBase {
     if (useGyro) {
 
     } else {
-      robotRot.plus(new Rotation2d(kinematics.toTwist2d(moduleDeltas).dtheta));
-      Logger.recordOutput("Robot Twist", robotRot.plus(new Rotation2d(kinematics.toTwist2d(moduleDeltas).dtheta)));
+      robotRot = robotRot.plus(new Rotation2d(kinematics.toTwist2d(moduleDeltas).dtheta));
     }
     return robotRot;
   }
@@ -97,5 +99,6 @@ public class Drivetrain extends SubsystemBase {
     Logger.recordOutput("Drivetrain/Robot Rotation", getRotation());
     Logger.recordOutput("Drivetrain/Swerve Pose", pose);
     Logger.recordOutput("Drivetrain/Swerve States", moduleStates);
+    visionSys.update(pose);
   }
 }

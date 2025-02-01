@@ -37,6 +37,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotPeriodic() {
+    Logger.recordOutput("Robot/State", robotState);
     CommandScheduler.getInstance().run();
   }
 

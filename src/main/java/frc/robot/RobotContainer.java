@@ -12,10 +12,12 @@ import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.carriage.commands.setVolts;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.commands.Drive;
+import frc.robot.subsystems.vision.Vision;
 
 public class RobotContainer {
   CommandXboxController controller = new CommandXboxController(0);
-  Drivetrain drivetrain = new Drivetrain(false);
+  Vision vision = new Vision();
+  Drivetrain drivetrain = new Drivetrain(false, vision);
   Carriage carriage = new Carriage();
 
   public RobotContainer() {
@@ -27,7 +29,7 @@ public class RobotContainer {
     () -> MathUtil.applyDeadband(-controller.getLeftX(), 0.1), 
     () -> MathUtil.applyDeadband(-controller.getLeftY(), 0.1), 
     () -> MathUtil.applyDeadband(-controller.getRightX(), 0.1), 
-    true));
+    false));
     controller.leftTrigger().whileTrue(new setVolts(carriage, 12));
     controller.leftBumper().whileTrue(new setVolts(carriage, -12));
   }
