@@ -7,11 +7,14 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Mass;
+import frc.robot.Constants.RobotConstants.state;
 import edu.wpi.first.units.measure.Distance;
 
 /** Add your docs here. */
@@ -20,10 +23,10 @@ public class Constants {
 
         //Module IDs
         public static final int[][] ModuleIDs = new int[][] {
-            {1,2},
-            {3,4},
-            {5,6},
-            {7,8}
+            {1,2,1},
+            {3,4,0},
+            {5,6,2},
+            {7,8,3}
         };
         
         //Module Translations
@@ -37,7 +40,7 @@ public class Constants {
         public static final double kPDrive = 0.8;
         public static final double kIDrive = 0.0;
         public static final double kDDrive = 0.0;
-        public static final double kPSteer = 0.7;
+        public static final double kPSteer = 0.6;
         public static final double kISteer = 0.0;
         public static final double kDSteer = 0.0;
 
@@ -58,5 +61,14 @@ public class Constants {
             REAL,
             SIM
         }
+    }
+
+    public class ElevatorConstants {
+        public static final Mass carriageMass = Pounds.of(20);
+        public static final double gearing = 20.0/1.0;
+        public static final Distance drumRadiusMeters = Meters.of(1);
+        public static final Distance minHeight = Meters.of(0);
+        public static final Distance maxHeight = Inches.of(46);
+        public static final Distance startingHeight = Inches.of(0);
     }
 }

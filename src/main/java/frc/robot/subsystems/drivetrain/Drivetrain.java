@@ -35,7 +35,7 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain(boolean usesGyro, Vision vision) {
     modules = new Module[4];
     for (int i=0; i<4; i++) {
-      modules[i] = new Module(ModuleIDs[i][0], ModuleIDs[i][1], i);
+      modules[i] = new Module(ModuleIDs[i][0], ModuleIDs[i][1], ModuleIDs[i][2], i);
     }
 
     kinematics = new SwerveDriveKinematics(moduleTranslations);
@@ -60,12 +60,12 @@ public class Drivetrain extends SubsystemBase {
     if (useGyro) {
 
     } else {
-      robotRot = robotRot.plus(new Rotation2d(kinematics.toTwist2d(moduleDeltas).dtheta));
+      robotRot = robotRot.plus(new Rotation2d());
     }
     return robotRot;
   }
 
-  public void Drive(double joystick1x, double joystick1y, double joystick2x, boolean robotRelative) {
+  public void drive(double joystick1x, double joystick1y, double joystick2x, boolean robotRelative) {
     SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(robotRelative ? ChassisSpeeds.fromRobotRelativeSpeeds(
       maxSpeed.in(MetersPerSecond)*joystick1y, 
       maxSpeed.in(MetersPerSecond)*joystick1x, 

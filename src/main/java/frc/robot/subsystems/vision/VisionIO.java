@@ -5,10 +5,11 @@
 package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import frc.robot.subsystems.vision.util.VisionResult;
 
 /** Add your docs here. */
 public interface VisionIO {
 
-  public abstract Pose2d[] getMeasurements();
+  public abstract VisionResult[] getMeasurements();
   public abstract void update(Pose2d presetPose);
 }

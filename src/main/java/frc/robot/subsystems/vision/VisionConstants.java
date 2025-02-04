@@ -31,6 +31,7 @@ public class VisionConstants {
             new Transform3d(new Translation3d(-0.5, 0, 0.5), new Rotation3d(0,Units.degreesToRadians(-15),0)),
         };
         public static final PoseStrategy strategy = PoseStrategy.LOWEST_AMBIGUITY;
+        public static final PoseStrategy fallbackStrategy = PoseStrategy.LOWEST_AMBIGUITY;
         public static final AprilTagFields field = AprilTagFields.kDefaultField;
     }
 }

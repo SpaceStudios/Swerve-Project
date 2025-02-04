@@ -17,7 +17,7 @@ public class Module {
     ModuleIO io;
     ModuleDataAutoLogged data;
     int index;
-    public Module(int DriveID, int SteerID, int Index) {
+    public Module(int DriveID, int SteerID, int EncoderID, int Index) {
         index = Index+1;
         data = new ModuleDataAutoLogged();
         switch (RobotConstants.robotState) {
@@ -25,13 +25,14 @@ public class Module {
             io = new ModuleIO_SIM(DriveID, SteerID);
                 break;
             case REAL:
-                io = new ModuleIO_REAL(DriveID, SteerID);
+                io = new ModuleIO_REAL(DriveID, SteerID, EncoderID);
                 break;
         }
     }
 
     public void setState(SwerveModuleState state) {
-        state.speedMetersPerSecond *= state.angle.minus(getState().angle).getCos();
+        state.optimize(io.getState().angle);
+        // state.speedMetersPerSecond *= state.angle.minus(getState().angle).getCos();
         io.drive(state);
     }
 

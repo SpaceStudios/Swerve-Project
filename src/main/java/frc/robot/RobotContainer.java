@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Inches;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -12,6 +14,8 @@ import frc.robot.subsystems.carriage.Carriage;
 import frc.robot.subsystems.carriage.commands.setVolts;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.commands.Drive;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.commands.SetHeight;
 import frc.robot.subsystems.vision.Vision;
 
 public class RobotContainer {
@@ -19,6 +23,7 @@ public class RobotContainer {
   Vision vision = new Vision();
   Drivetrain drivetrain = new Drivetrain(false, vision);
   Carriage carriage = new Carriage();
+  Elevator elevator = new Elevator();
 
   public RobotContainer() {
     configureBindings();
@@ -32,6 +37,7 @@ public class RobotContainer {
     false));
     controller.leftTrigger().whileTrue(new setVolts(carriage, 12));
     controller.leftBumper().whileTrue(new setVolts(carriage, -12));
+    controller.a().whileTrue(new SetHeight(Inches.of(20), elevator));
   }
 
   public Command getAutonomousCommand() {

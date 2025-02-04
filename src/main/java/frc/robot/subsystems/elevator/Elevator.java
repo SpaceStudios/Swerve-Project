@@ -8,6 +8,7 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.elevator.io.ElevatorIO_SIM;
 
 public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
@@ -15,6 +16,7 @@ public class Elevator extends SubsystemBase {
   ElevatorDataAutoLogged data;
   public Elevator() {
     data = new ElevatorDataAutoLogged();
+    io = new ElevatorIO_SIM();
   }
 
   public void setHeight(Distance height) {
@@ -25,6 +27,6 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     io.updateData(data);
-    Logger.processInputs("Robot/Elevator", data);
+    Logger.processInputs("Elevator", data);
   }
 }

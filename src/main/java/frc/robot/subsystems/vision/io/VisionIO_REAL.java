@@ -17,6 +17,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionConstants.GeneralConstants;
+import frc.robot.subsystems.vision.util.VisionResult;
 
 /** Add your docs here. */
 public class VisionIO_REAL implements VisionIO {
@@ -26,24 +27,24 @@ public class VisionIO_REAL implements VisionIO {
         cameras = new PhotonCamera[GeneralConstants.CameraIDs.length];
         poseEstimators = new PhotonPoseEstimator[cameras.length];
         for (int i=0; i < cameras.length - 1; i++) {
-            cameras[i] = new PhotonCamera(GeneralConstants.CameraIDs[i]);
-            poseEstimators[i] = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(GeneralConstants.field), GeneralConstants.strategy, GeneralConstants.CameraTransforms[i]);
+            // cameras[i] = new PhotonCamera(GeneralConstants.CameraIDs[i]);
+            // poseEstimators[i] = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(GeneralConstants.field), GeneralConstants.strategy, GeneralConstants.CameraTransforms[i]);
         }
     }
 
     @Override
-    public Pose2d[] getMeasurements() {
-        Pose2d[] visionMeasurement = new Pose2d[cameras.length];
-        for (int i=0; i < cameras.length; i++) {
-            List<PhotonPipelineResult> pipelineResults = cameras[i].getAllUnreadResults();
-            if (pipelineResults.size() > 0) {
-                // may be last elem
-                Optional<EstimatedRobotPose> estimatedPose = poseEstimators[i].update(pipelineResults.get(0));
-                if (estimatedPose.isPresent()) {
-                    visionMeasurement[i] = estimatedPose.get().estimatedPose.toPose2d();
-                }
-            }
-        }
+    public VisionResult[] getMeasurements() {
+        VisionResult[] visionMeasurement = new VisionResult[cameras.length];
+        // for (int i=0; i < cameras.length; i++) {
+        //     List<PhotonPipelineResult> pipelineResults = cameras[i].getAllUnreadResults();
+        //     if (pipelineResults.size() > 0) {
+        //         // may be last elem
+        //         Optional<EstimatedRobotPose> estimatedPose = poseEstimators[i].update(pipelineResults.get(0));
+        //         if (estimatedPose.isPresent()) {
+        //             visionMeasurement[i] = estimatedPose.get().estimatedPose.toPose2d();
+        //         }
+        //     }
+        // }
         return visionMeasurement;
     }
 

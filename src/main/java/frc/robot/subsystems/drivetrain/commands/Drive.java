@@ -30,7 +30,7 @@ public class Drive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.Drive(joystick1x.getAsDouble(), joystick1y.getAsDouble(), joystick2x.getAsDouble(), robotRelative);
+    drivetrain.drive(joystick1x.getAsDouble(), joystick1y.getAsDouble(), joystick2x.getAsDouble(), robotRelative);
   }
 
   // Called once the command ends or is interrupted.
