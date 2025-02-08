@@ -21,23 +21,23 @@ import frc.robot.subsystems.vision.Vision;
 public class RobotContainer {
   CommandXboxController controller = new CommandXboxController(0);
   Vision vision = new Vision();
-  Drivetrain drivetrain = new Drivetrain(false, vision);
-  Carriage carriage = new Carriage();
-  Elevator elevator = new Elevator();
+  // Drivetrain drivetrain = new Drivetrain(false, vision);
+  // Carriage carriage = new Carriage();
+  // Elevator elevator = new Elevator();
 
   public RobotContainer() {
     configureBindings();
   }
 
   private void configureBindings() {
-    drivetrain.setDefaultCommand(new Drive(drivetrain, 
-    () -> MathUtil.applyDeadband(-controller.getLeftX(), 0.1), 
-    () -> MathUtil.applyDeadband(-controller.getLeftY(), 0.1), 
-    () -> MathUtil.applyDeadband(-controller.getRightX(), 0.1), 
-    false));
-    controller.leftTrigger().whileTrue(new setVolts(carriage, 12));
-    controller.leftBumper().whileTrue(new setVolts(carriage, -12));
-    controller.a().whileTrue(new SetHeight(Inches.of(20), elevator));
+    // drivetrain.setDefaultCommand(new Drive(drivetrain, 
+    // () -> MathUtil.applyDeadband(-controller.getLeftX(), 0.1), 
+    // () -> MathUtil.applyDeadband(-controller.getLeftY(), 0.1), 
+    // () -> MathUtil.applyDeadband(-controller.getRightX(), 0.1), 
+    // false));
+    // controller.leftTrigger().whileTrue(new setVolts(carriage, 12));
+    // controller.leftBumper().whileTrue(new setVolts(carriage, -12));
+    // controller.a().whileTrue(new SetHeight(Inches.of(20), elevator));
   }
 
   public Command getAutonomousCommand() {

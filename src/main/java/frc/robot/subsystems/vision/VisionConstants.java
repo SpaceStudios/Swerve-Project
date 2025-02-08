@@ -21,14 +21,12 @@ public class VisionConstants {
     }
     public class GeneralConstants {
         public static final String[] CameraIDs = new String[] {
-            "Camera1",
-            "Camera2",
-            "Camera3"
+            "Camera_Module_v1_l",
+            "Camera_Module_v1_r"
         };
         public static final Transform3d[] CameraTransforms = new Transform3d[] {
-            new Transform3d(new Translation3d(0.1, -1, 0.5), new Rotation3d(0,Units.degreesToRadians(-15),Units.degreesToRadians(-15))),
-            new Transform3d(new Translation3d(0.1, 1, 0.5), new Rotation3d(0,Units.degreesToRadians(-15),Units.degreesToRadians(15))),
-            new Transform3d(new Translation3d(-0.5, 0, 0.5), new Rotation3d(0,Units.degreesToRadians(-15),0)),
+            new Transform3d(new Translation3d(-Units.inchesToMeters(15), -Units.inchesToMeters(9.5), Units.inchesToMeters(12)), new Rotation3d(Units.degreesToRadians(90),0,Units.degreesToRadians(180))),
+            new Transform3d(new Translation3d(-Units.inchesToMeters(15), Units.inchesToMeters(9.5), Units.inchesToMeters(12)), new Rotation3d(Units.degreesToRadians(90),Units.degreesToRadians(0),Units.degreesToRadians(180)))
         };
         public static final PoseStrategy strategy = PoseStrategy.LOWEST_AMBIGUITY;
         public static final PoseStrategy fallbackStrategy = PoseStrategy.LOWEST_AMBIGUITY;

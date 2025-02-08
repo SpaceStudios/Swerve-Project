@@ -83,18 +83,22 @@ public class VisionIO_SIM implements VisionIO {
         for (int i=0; i<poseEstimators.length; i++) {
             poseEstimators[i].setReferencePose(pose);
         }
+       
         Pose3d[] targetPoses = new Pose3d[22];
+        PhotonTrackedTarget[][] cameraTargets = new PhotonTrackedTarget[cameras.length][] ;
         for (PhotonCamera camera : cameras) {
             List<PhotonPipelineResult> results = camera.getAllUnreadResults();
             if (results.size() > 0) {
                 for (int i=0; i<results.size(); i++) {
                     List<PhotonTrackedTarget> targets = results.get(i).getTargets();
+                    PhotonTrackedTarget[] trackedTargets = new PhotonTrackedTarget[targets.size()];
                     if (targets.size() > 0) {
                         for (int t=0; t<targets.size(); t++) {
                             Optional<Pose3d> targetPose = AprilTagFieldLayout.loadField(GeneralConstants.field).getTagPose(targets.get(t).getFiducialId());
+                            trackedTargets[t] = targets.get(t);
                             if (targetPose.isPresent()) {
                                 targetPoses[targets.get(t).fiducialId-1] = targetPose.get();
-                            }
+                            }   
                         }
                     }
                 }

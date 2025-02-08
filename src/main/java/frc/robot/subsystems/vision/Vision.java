@@ -42,6 +42,7 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
+    update(new Pose2d());
     VisionResult[] measuredPoses = getVisionMeasurements();
     Logger.recordOutput("Cameras/Active", true);
     for (int i=0; i<measuredPoses.length; i++) {
@@ -51,7 +52,7 @@ public class Vision extends SubsystemBase {
         Logger.recordOutput("Cameras/Camera #"+(i+1)+" Estimated Pose", new Pose2d());
       }
     }
-    if (measuredPoses[0] == null && measuredPoses[0] == measuredPoses[1] && measuredPoses[1] == measuredPoses[2]) {
+    if (measuredPoses[0] == null && measuredPoses[0] == measuredPoses[1]) {
       Logger.recordOutput("Cameras/Deadzones", currentPose);
     } else {
       Logger.recordOutput("Cameras/Deadzones", new Pose2d(new Translation2d(100, 100), new Rotation2d()));
